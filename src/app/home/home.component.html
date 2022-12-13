@@ -1,0 +1,115 @@
+<section id="weather" class="d-flex align-items-center">
+    <div class="container">
+        <!-- <div class="d-flex justify-content-center">
+            <nav class="nav w-75 mb-2 tabcolor rounded nav-pills nav-fill">
+                <a class="nav-link active" aria-current="page" href="#">Register</a>
+                <a class="nav-link text-light" href="#">Membership</a>
+                <a class="nav-link text-light" href="#">Much longer nav link</a>
+                <a class="nav-link text-light" href="#">Much longer nav link</a>
+            </nav>
+        </div> -->
+        <div class="row">
+            <div class="d-flex justify-content-center">
+                <div class="card border-0 text-center w-50">
+                    <div class="card-header day-head">
+                        <h5 class="card-title">⭐ Welcome To Yoga Portal ⭐</h5>
+                    </div>
+                    <div *ngIf="showRegister" class="card-body">
+                        <i class="fa fa-4x fa-cloud-sun"></i>
+                        <p class="text-muted">{{currentDate | date:'MMM d, y, h:mm:ss a'}}</p>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" id="basic-addon1">Your Name</span>
+                            <input type="text" #name class="form-control" placeholder="Your full Number"
+                                aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" id="basic-addon1">ID Proof</span>
+                            <input type="text" #id class="form-control" placeholder="Aadhar or PAN" aria-label="Username"
+                                aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" id="basic-addon1">Phone</span>
+                            <input type="text" #phone class="form-control" placeholder="Mobile Number" aria-label="Username"
+                                aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" id="basic-addon1">Address</span>
+                            <input type="text" #address class="form-control" placeholder="Your Address" aria-label="Username"
+                                aria-describedby="basic-addon1">
+                        </div>
+                        <hr class="hr-primary">
+                        <button type="button" (click)="onRegister(name.value, id.value, phone.value, address.value)"
+                            class="btn btn-outline-primary mb-2">Register</button>
+                        <p>Make payment <a class="c-pointer link" (click)="onBack('payment')">here</a></p>
+                        <p>Check your validity of membership <a class="c-pointer link" (click)="onBack('member')">here</a></p>
+                        
+
+                    </div>
+
+                    <div *ngIf="showPayment" class="card-body">
+                        <i class="fa fa-4x fa-cloud-sun"></i>
+                        <p class="text-muted">{{currentDate | date:'MMM d, y, h:mm:ss a'}}</p>
+                        <select class="form-select mb-2" #date aria-label="Default select example" data-size="5">
+                            <option selected>Select Oprator</option>
+                            <option value="1">1 Month</option>
+                            <option value="3">3 Month</option>
+                            <option value="6">6 Month</option>
+                            <option value="12">12 Month</option>
+                        </select>
+                       <div class="input-group mb-2">
+                            <div class="alert alert-primary w-100" role="alert">
+                                <p>Please select Month</p>
+                                <p>Your have to pay <strong>Rs 500</strong> for 1 month membership</p>
+                            </div>
+                       </div>
+                        <hr class="hr-primary">
+                        <button type="button" (click)="onPay(date.value)"
+                            class="btn btn-outline-primary mb-1">Make Payment</button>
+                        <p>Make payment <a class="c-pointer link" (click)="onBack('payment')">here</a></p>
+                        <p>Change membership Batch<a class="c-pointer link" (click)="onBack('register')">here</a></p>
+                    </div>
+
+                    <div *ngIf="showBatch" class="card-body">
+                        <i class="fa fa-4x fa-cloud-sun"></i>
+                        <p class="text-muted">{{currentDate | date:'MMM d, y, h:mm:ss a'}}</p>
+                        <select #slot class="form-select mb-2" aria-label="Default select example" data-size="5">
+                            <option selected>Select State</option>
+                            <option *ngFor="let obj of batch" value="{{obj.batch}}">{{obj.batch}}</option>
+                        </select>
+                        <div class="input-group mb-2">
+                            <div class="alert alert-primary w-100" role="alert">
+                                <p>Please select Month</p>
+                                <p>Your have to pay <strong>Rs 500</strong> for 1 month membership</p>
+                            </div>
+                        </div>
+                        <hr class="hr-primary">
+                        <button type="button" (click)="onSlot(slot.value)" class="btn btn-outline-primary mb-1">Make Payment</button>
+                        <p>Make payment <a class="c-pointer link" (click)="onBack('payment')">here</a></p>
+                        <p>Change membership Batch<a class="c-pointer link" (click)="onBack('register')">here</a></p>
+                    </div>
+
+                    <div *ngIf="showMembership" class="card-body">
+                        <i class="fa fa-4x fa-cloud-sun"></i>
+                        <p class="text-muted">{{currentDate | date:'MMM d, y, h:mm:ss a'}}</p>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" id="basic-addon1">Phone</span>
+                            <input type="text" #phone class="form-control" placeholder="Mobile Number" aria-label="Username"
+                                aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="alert alert-primary w-100" role="alert">
+                                <p>Please select Month</p>
+                                <p>Your have to pay <strong>Rs 500</strong> for 1 month membership</p>
+                            </div>
+                        </div>
+                        <hr class="hr-primary">
+                        <button type="button" (click)="showMember(phone.value)" class="btn btn-outline-primary mb-1">Make Payment</button>
+                        <p>Make payment <a class="c-pointer link" (click)="onBack('payment')">here</a></p>
+                        <p>Change membership Batch<a class="c-pointer link" (click)="onBack('register')">here</a></p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
