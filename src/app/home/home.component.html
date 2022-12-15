@@ -49,8 +49,13 @@
                     <div *ngIf="showPayment" class="card-body">
                         <i class="fa fa-4x fa-cloud-sun"></i>
                         <p class="text-muted">{{currentDate | date:'MMM d, y, h:mm:ss a'}}</p>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" id="basic-addon1">Phone</span>
+                            <input type="text" #phone class="form-control" placeholder="Phone" aria-label="phone" [value]="phone.value"
+                                aria-describedby="basic-addon1">
+                        </div>
                         <select #date (change)="selectmonth(date.value)" class="form-select mb-2" aria-label="Default select example" data-size="5">
-                            <option selected>Select Oprator</option>
+                            <option selected>Select Month</option>
                             <option value="1">1 Month</option>
                             <option value="3">3 Month</option>
                             <option value="6">6 Month</option>
@@ -63,7 +68,7 @@
                             </div>
                        </div>
                         <hr class="hr-primary">
-                        <button type="button" (click)="onPay()"
+                        <button type="button" (click)="onPay(phone.value)"
                             class="btn btn-outline-primary mb-1">Make Payment</button>
                         <p>Make payment <a class="c-pointer link" (click)="onBack('payment')">here</a></p>
                         <p>Change membership Batch<a class="c-pointer link" (click)="onBack('register')">here</a></p>
@@ -73,15 +78,15 @@
                         <i class="fa fa-4x fa-cloud-sun"></i>
                         <p class="text-muted">{{currentDate | date:'MMM d, y, h:mm:ss a'}}</p>
                         <select #slot class="form-select mb-2" aria-label="Default select example" data-size="5">
-                            <option selected>Select State</option>
+                            <option selected>Select Slot</option>
                             <option *ngFor="let obj of batch" value="{{obj.batch}}">{{obj.batch}}</option>
                         </select>
-                        <div class="input-group mb-2">
+                        <!-- <div class="input-group mb-2">
                             <div class="alert alert-primary w-100" role="alert">
                                 <p>Please select Month</p>
                                 <p>Your have to pay <strong>Rs 500</strong> for 1 month membership</p>
                             </div>
-                        </div>
+                        </div> -->
                         <hr class="hr-primary">
                         <button type="button" (click)="onSlot(slot.value)" class="btn btn-outline-primary mb-1">Make Payment</button>
                         <p>Make payment <a class="c-pointer link" (click)="onBack('payment')">here</a></p>
@@ -97,13 +102,14 @@
                                 aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-2">
-                            <div class="alert alert-primary w-100" role="alert">
-                                <p>Please select Month</p>
-                                <p>Your have to pay <strong>Rs 500</strong> for 1 month membership</p>
+                            <div *ngIf="paymentHistory" class="alert alert-primary w-100" role="alert">
+                                <p *ngFor="let hist of paymentHistory">
+                                    <b>{{hist.id}}</b>. Slot {{hist.slot}} Date {{hist.slotBooked}} Amount {{hist.amount}} membership
+                                </p>
                             </div>
                         </div>
                         <hr class="hr-primary">
-                        <button type="button" (click)="showMember(phone.value)" class="btn btn-outline-primary mb-1">Make Payment</button>
+                        <button type="button" (click)="showMember(phone.value)" class="btn btn-outline-primary mb-1">Show Payments</button>
                         <p>Make payment <a class="c-pointer link" (click)="onBack('payment')">here</a></p>
                         <p>Change membership Batch<a class="c-pointer link" (click)="onBack('register')">here</a></p>
                     </div>
