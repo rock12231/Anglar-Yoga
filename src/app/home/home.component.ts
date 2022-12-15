@@ -22,6 +22,10 @@ export class HomeComponent implements OnInit {
     address: ''
   }
 
+  month: any
+  totalAmount: any
+  phone: any
+
   // http://127.0.0.1:8000/api/batch
   // http://127.0.0.1:8000/api/user
   // http://127.0.0.1:8000/api/user/+id
@@ -62,47 +66,60 @@ export class HomeComponent implements OnInit {
   }
 
   onRegister(getName: any, getId: any, getPhone: any, getAddress: any) {
-    this.showRegister = false
-    this.showPayment = true
-    this.showBatch = false
     this.userData.username = getName
     this.userData.idproof = getId
     this.userData.phone = getPhone
     this.userData.address = getAddress
+    this.phone = getPhone
     this.http.post<any>('http://127.0.0.1:8000/api/user', this.userData)
       .subscribe(res => {
-      if (res) {
-         alert("User Register Successfully")
-        }
+      if (res.error) { alert("User Register Failed " + res.error[0]) }
       else {
-          alert("User Register Failed")
+        alert("User Register Successfully")
+        this.showRegister = false
+        this.showPayment = true
+        this.showBatch = false
         }
       })  
   }
 
+  selectmonth(month: any) {
+    var monthInt: number = + month
+    this.month = monthInt
+    this.totalAmount = monthInt * 500
+  }
 
-  onPay(getDate:any) {
-    this.http.post<any>('http://127.0.0.1:8000/api/history', this.userData).subscribe(res => {
-      console.log("save", res.status, res.message, res.data, res.success)
-      if (res) {
-       
-        setTimeout(() => {
-         
-          const body = { status: 'Done' }
-          this.http.put<any>('http://127.0.0.1:8000/api/history/' + res.id, body)  //id
-            .subscribe(data => {
-              console.log("save", this.userData)
-              if (data) {
-                
-                console.log("save", data.status)
+  onPay() {
+
+    var fullDate = new Date(new Date().setMonth(new Date().getMonth() + this.month))
+    var formateDate = fullDate.getFullYear() + "-" + (fullDate.getMonth() + 1) + "-" + (fullDate.getDate() - 1)
+
+    var data = {
+                "phone": this.phone,
+                "paymentId": "pay-id-123",
+                "datePaid": formateDate,
+                "amount": this.totalAmount,
               }
-            })
-        }, 3000)
 
-
+    this.http.post<any>('http://127.0.0.1:8000/api/payment', data)
+    .subscribe(res => {
+      if (res.error) { alert("Payment Failed " + res.error[0]) 
+        // setTimeout(() => {
+         
+        //   const body = { status: 'Done' }
+        //   this.http.put<any>('http://127.0.0.1:8000/api/history/' + res.id, body)  //id
+        //     .subscribe(data => {
+        //       console.log("save", this.userData)
+        //       if (data) {
+                
+        //         console.log("save", data.status)
+        //       }
+        //     })
+        // }, 3000)
+      
       }
       else {
-        alert("Payment Failed")
+        alert("Payment Successfully")
       }
 
     })

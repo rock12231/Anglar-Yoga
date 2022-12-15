@@ -49,7 +49,7 @@
                     <div *ngIf="showPayment" class="card-body">
                         <i class="fa fa-4x fa-cloud-sun"></i>
                         <p class="text-muted">{{currentDate | date:'MMM d, y, h:mm:ss a'}}</p>
-                        <select class="form-select mb-2" #date aria-label="Default select example" data-size="5">
+                        <select #date (change)="selectmonth(date.value)" class="form-select mb-2" aria-label="Default select example" data-size="5">
                             <option selected>Select Oprator</option>
                             <option value="1">1 Month</option>
                             <option value="3">3 Month</option>
@@ -59,11 +59,11 @@
                        <div class="input-group mb-2">
                             <div class="alert alert-primary w-100" role="alert">
                                 <p>Please select Month</p>
-                                <p>Your have to pay <strong>Rs 500</strong> for 1 month membership</p>
+                                <p>Your have to pay <strong>Rs {{totalAmount}}</strong> for 1 month membership</p>
                             </div>
                        </div>
                         <hr class="hr-primary">
-                        <button type="button" (click)="onPay(date.value)"
+                        <button type="button" (click)="onPay()"
                             class="btn btn-outline-primary mb-1">Make Payment</button>
                         <p>Make payment <a class="c-pointer link" (click)="onBack('payment')">here</a></p>
                         <p>Change membership Batch<a class="c-pointer link" (click)="onBack('register')">here</a></p>
